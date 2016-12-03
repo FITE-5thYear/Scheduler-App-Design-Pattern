@@ -1,48 +1,55 @@
-
 public class Question4 {
     public static void main(String[] args) {
-       Client client = new Client();
-  		
-       client.SetReminderStrategy(new VoiceAlert());
-   	
-       client.SetReminderStrategy(new Notification());		
+    	Appointment appointment = new Appointment("Do design patter mini-project","10:00",new NotificationReminder());
+    	appointment.reminderUser();
+    	System.out.println("User change reminding method from setting");
+    	appointment.changeReminderStrategy(new VoiceReminder());
+    	appointment.reminderUser();
     }
 }
 
-
-interface ISetting 
-{  
-    String setting();
+class Appointment{
+	private String title;
+	private String time;
+	
+	private RemindingStrategy remindingStrategy;
+	
+	public Appointment(String title,String time,RemindingStrategy remindingStrategy){
+		this.time = time;
+		this.title = title;
+		this.remindingStrategy = remindingStrategy;
+	}
+	
+	public void changeReminderStrategy(RemindingStrategy remindingStrategy){
+		this.remindingStrategy = remindingStrategy;
+	}
+	
+	public void reminderUser(){
+		System.out.print(remindingStrategy.remind());
+		System.out.println(" - "+title + " - " +time);
+	}
 }
 
- //strategies
- //Strategy 1:Voice Alter
-class VoiceAlert implements ISetting 
+interface RemindingStrategy
+{  
+    public String remind();
+}
+
+class VoiceReminder implements RemindingStrategy 
 {
     @Override
-    public String setting() 
+    public String remind() 
     {
-       return "Voice alert";
+       return "Voice Reminder";
     }
 }
  
- //Strategy 2: Application Notification
-class Notification implements ISetting 
+class NotificationReminder implements RemindingStrategy 
 {
     @Override
-    public String setting() 
+    public String remind() 
     {
-       return "Notification";
+       return "Notification Reminder";
     }   
 }
  
-
-class ChangeSetting 
-{
-    private ISetting strategy;
- 	
-     //Change the strategy
-     public void SetReminderStrategy(ISetting strategy){
-         this.strategy = strategy;
-    }
-}

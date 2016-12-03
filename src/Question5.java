@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -7,58 +8,77 @@ public class Question5 {
     public static void main(String[] args) {
      
         AppointmentBuilder builder = new AppointmentBuilder();
-        builder.SetDate();
-        builder.SetLocation();
+        builder.SetDate(Calendar.getInstance().getTime());
+        builder.SetLocation("Hamra");
         builder.SetCoordinators("event");
-    }
-    
+        
+        
+        Appointment2 appointment = builder.Build();
+        System.out.println(appointment.toString());
+        
+        builder.SetCoordinators("conference");
+        appointment = builder.Build();
+        System.out.println(appointment.toString());
+    }  
 }
 
-class Appointment{
-    public Calendar date;
+class Appointment2{
+    public Date date;
     public String location;
     public List<String> coordinators;
+    
+    @Override
+    public String toString(){
+    	String string = "Date : " + date;
+    	string += "\nLocation :" + location;
+    	string += "\nCoordinators :" + coordinators;
+    	return string;
+    }
 }
 interface IAppointmentBuilder 
 {
     // The appointment creation consist of many phases: set the date, location, coordinators
-    void SetDate();
-    void SetLocation();
+    void SetDate(Date date);
+    void SetLocation(String locatoin);
 
     //some phases change due to the type of the appointment.. so we pass the appointment type to these  phases
     void SetCoordinators(String Appointment_type);
+    Appointment2 Build();
 }
 
 class AppointmentBuilder implements IAppointmentBuilder{
 
-    private Appointment appointment;
+    private Appointment2 appointment;
     
     public AppointmentBuilder(){
-        this.appointment=new Appointment();
-    }
-     
-    @Override
-    public void SetDate() {
-        appointment.date=Calendar.getInstance();
+        this.appointment=new Appointment2();
     }
     
     @Override
-    public void SetLocation(){
-        appointment.location="Hamra";
+    public Appointment2 Build() {
+		return appointment;
+	}
+     
+    @Override
+    public void SetDate(Date date) {
+        appointment.date=date;
+    }
+    
+    @Override
+    public void SetLocation(String location){
+        appointment.location=location;
     }
 
     @Override
     public void SetCoordinators(String appointment_type) {
-        List<String> coords;
+    	appointment.coordinators = new ArrayList<>();
         if(appointment_type.equals("event")){
-          coords =new ArrayList<>(2);
-          coords.add("Alaa");
-          coords.add("hania");
+	        appointment.coordinators.add("Alaa");
+	        appointment.coordinators.add("Hania");
         }else if(appointment_type.equals("conference")){
-            coords =new ArrayList<>(3);
-            coords.add("Mohammed");
-            coords.add("Basel");
-            coords.add("Omar");
+        	appointment.coordinators.add("Mohammed");
+        	appointment.coordinators.add("Basel");
+        	appointment.coordinators.add("Omar");
         }
     }
 }

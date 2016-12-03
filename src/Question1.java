@@ -25,18 +25,15 @@ public class Question1 {
 		
 		System.out.println(CA2.getSummary());
 	}
-	
-
-
 }
 
-interface Appointment{
+interface IAppointment{
 	public abstract String getSummary();	
 }
 
 
-class CompositeAppointment implements  Appointment{
-	private List<Appointment> subAppointmetns;
+class CompositeAppointment implements  IAppointment{
+	private List<IAppointment> subAppointmetns;
 	
 	public CompositeAppointment(){
 		subAppointmetns = new ArrayList<>();
@@ -45,29 +42,27 @@ class CompositeAppointment implements  Appointment{
 	@Override
 	public String getSummary() {
 		String summary = "Compsosite Appointment \n\t";
-		
-		for (Appointment appointment : subAppointmetns) {
+		for (IAppointment appointment : subAppointmetns) {
 			summary += appointment.getSummary() +"\n\t";
 		}
 		summary += "\n";
 		return summary;
 	}
 	
-	public void addSubAppointment(Appointment appointment){
+	public void addSubAppointment(IAppointment appointment){
 		subAppointmetns.add(appointment);
 	}
 	
-	public void removeAppointment(Appointment appointment){
+	public void removeAppointment(IAppointment appointment){
 		subAppointmetns.remove(appointment);
 	}
 	
-	public List<Appointment> getSubAppointment(){
+	public List<IAppointment> getSubAppointment(){
 		return subAppointmetns;
 	}
-	
 }
 
-class SimpleAppointment implements Appointment{
+class SimpleAppointment implements IAppointment{
 
 	private String locaiton;
 	private String time;
@@ -81,5 +76,4 @@ class SimpleAppointment implements Appointment{
 	public String getSummary() {
 		return String.format("Simple Appointment { %s , %s }",locaiton,time);
 	}
-	
 }

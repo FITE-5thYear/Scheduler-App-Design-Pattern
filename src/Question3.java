@@ -3,24 +3,32 @@ import java.util.Date;
 
 public class Question3 {
 	public static void main(String[] args) {
-		CalenderInterface calender = AdvanceCalender2.getInstance();
-		System.out.println(calender.getDateInMarch(2016, 1));
+		CalenderInterface calender = SingltonAdvanceCalender.getInstance();
+		System.out.println(calender.getDateInMarch(2016, 1)+"\n");
+		calender = SingltonAdvanceCalender.getInstance();
+		System.out.println(calender.getDateInMarch(2016, 3)+"\n");
+		calender = SingltonAdvanceCalender.getInstance();
+		System.out.println(calender.getDateInMarch(2016, 7)+"\n");
+		calender = SingltonAdvanceCalender.getInstance();
+		System.out.println(calender.getDateInMarch(2016, 23)+"\n");
 	}
 }
 
-class AdvanceCalender2 implements CalenderInterface{
+class SingltonAdvanceCalender implements CalenderInterface{
 	
-	private static AdvanceCalender2 instance;
+	private static SingltonAdvanceCalender instance;
 	private Calendar calendar;
-	private AdvanceCalender2(){
+	private SingltonAdvanceCalender(){
 		calendar = Calendar.getInstance();
 	}
 	
-	public static AdvanceCalender2 getInstance(){
+	public static SingltonAdvanceCalender getInstance(){
 		if (instance == null){
-			instance = new AdvanceCalender2();
+			System.out.println("Create instance for the first time");
+			instance = new SingltonAdvanceCalender();
 			return instance;
 		}else{
+			System.out.println("Reuse the existing instance");
 			return instance;
 		}
 	}
